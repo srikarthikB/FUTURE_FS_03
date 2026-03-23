@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SVLN Metro Mart – Simhachalam, Vepagunta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --g:   #16a34a;  --gd: #14532d;
+      --gl:  #dcfce7;  --go: #4ade80;
+      --r:   #dc2626;  --o:  #ea580c;
+      --y:   #f59e0b;
+      --ink: #0d1f0d;  --muted: #6b7280;
+      --border: #e5f0e5; --surface: #f7faf7;
+    }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--surface); color:var(--ink); overflow-x:hidden; }
+
+    /* NAV */
+    #nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 1.5rem;transition:background .3s,box-shadow .3s,padding .3s; }
+    #nav.scrolled { background:rgba(255,255,255,.96);backdrop-filter:blur(20px);box-shadow:0 1px 28px rgba(0,0,0,.09);padding:.65rem 1.5rem; }
+    .nav-inner { max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between; }
+    .logo { display:flex;align-items:center;gap:.6rem;text-decoration:none; }
+    .logo-badge { width:42px;height:42px;border-radius:13px;background:var(--g);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(22,163,74,.35);flex-shrink:0; }
+    .logo-name { font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;color:var(--ink);letter-spacing:-.02em;line-height:1; }
+    .logo-name em { font-style:normal;color:var(--g); }
+    .logo-sub { font-size:.6rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px; }
+    .nav-links { display:flex;align-items:center;gap:.2rem; }
+    .nav-links a { padding:.5rem 1rem;border-radius:10px;font-size:.875rem;font-weight:600;color:#374151;text-decoration:none;transition:background .18s,color .18s; }
+    .nav-links a:hover,.nav-links a.active { background:var(--gl);color:var(--g); }
+    .nav-cta { margin-left:.5rem;padding:.55rem 1.4rem;background:var(--g);color:#fff !important;border-radius:12px;box-shadow:0 4px 16px rgba(22,163,74,.32);transition:background .2s,transform .15s,box-shadow .2s !important; }
+    .nav-cta:hover { background:var(--gd) !important;transform:translateY(-1px);box-shadow:0 6px 22px rgba(22,163,74,.42) !important; }
+    .ham { display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem;border-radius:8px;background:transparent;border:none; }
+    .ham span { display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:.25s; }
+    #mob-nav { display:none;position:fixed;top:68px;left:1rem;right:1rem;background:#fff;border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.16);padding:1rem;z-index:99;flex-direction:column;gap:.25rem;animation:slideDown .2s ease; }
+    #mob-nav.open { display:flex; }
+    #mob-nav a { padding:.85rem 1rem;border-radius:12px;font-weight:600;font-size:.9rem;color:#374151;text-decoration:none;transition:background .15s; }
+    #mob-nav a:hover { background:var(--gl);color:var(--g); }
+    #mob-nav .mob-cta { margin-top:.25rem;background:var(--g);color:#fff;text-align:center;border-radius:12px;box-shadow:0 4px 14px rgba(22,163,74,.28); }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* HERO */
+    .hero { min-height:100vh;background:linear-gradient(148deg,#052e16 0%,#14532d 42%,#166534 72%,#15803d 100%);position:relative;overflow:hidden;display:flex;align-items:center;padding:8rem 1.5rem 5rem; }
+    .hero::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 88% 38%,rgba(234,88,12,.22) 0%,transparent 60%),radial-gradient(ellipse 45% 45% at 8% 80%,rgba(74,222,128,.14) 0%,transparent 55%);pointer-events:none; }
+    .hero-dots { position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:30px 30px; }
+    .hero-inner { position:relative;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center; }
+    .hero-badge { display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(90deg,#ea580c,#dc2626);color:#fff;font-size:.75rem;font-weight:700;padding:.4rem 1.1rem;border-radius:100px;margin-bottom:1.6rem;box-shadow:0 4px 16px rgba(220,38,38,.38);animation:pulseBadge 2.5s ease-in-out infinite; }
+    .hero-badge .dot { width:6px;height:6px;background:#fff;border-radius:50%; }
+    @keyframes pulseBadge { 0%,100%{opacity:1} 50%{opacity:.72} }
+    .hero-h1 { font-family:'Fraunces',serif;font-size:clamp(3rem,5.5vw,5.2rem);font-weight:900;line-height:1.04;color:#fff;margin-bottom:1.5rem; }
+    /* GRADIENT TEXT — pure CSS, zero Tailwind dependency */
+    .hero-h1 .grad { background:linear-gradient(90deg,#4ade80,#a7f3d0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent; }
+    .hero-p { color:#bbf7d0;font-size:1.1rem;line-height:1.75;max-width:470px;margin-bottom:2.5rem; }
+    .hero-btns { display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3.5rem; }
+    .btn-white { display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;background:#fff;color:var(--g);font-weight:700;font-size:.95rem;border-radius:14px;text-decoration:none;box-shadow:0 8px 28px rgba(0,0,0,.22);transition:transform .2s,box-shadow .2s; }
+    .btn-white:hover { transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.28); }
+    .btn-ghost { display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;border:2px solid rgba(74,222,128,.45);color:#86efac;font-weight:700;font-size:.95rem;border-radius:14px;text-decoration:none;transition:background .2s,border-color .2s; }
+    .btn-ghost:hover { background:rgba(22,163,74,.18);border-color:#4ade80; }
+    .hero-stats { display:flex;flex-wrap:wrap;gap:2rem; }
+    .stat-num { font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;color:#fff;line-height:1; }
+    .stat-label { font-size:.78rem;color:#86efac;margin-top:.25rem; }
+    .stat-sep { width:1px;background:rgba(255,255,255,.15);align-self:stretch; }
+    .hero-vis { position:relative; }
+    .glass-card { background:rgba(255,255,255,.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:2rem;color:#fff; }
+    .glass-card .gc-icon { font-size:3rem;margin-bottom:1rem; }
+    .glass-card h3 { font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;margin-bottom:.5rem; }
+    .glass-card p { color:#bbf7d0;font-size:.875rem;line-height:1.6; }
+    .gc-rating { display:flex;align-items:center;gap:.5rem;margin-top:1rem; }
+    .gc-stars { color:#fbbf24;font-size:1rem;letter-spacing:.05em; }
+    .gc-rtxt { color:#86efac;font-size:.8rem;font-weight:600; }
+    .chip { position:absolute;background:#fff;border-radius:100px;padding:.55rem 1.15rem;display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:700;color:var(--ink);box-shadow:0 8px 28px rgba(0,0,0,.18); }
+    .chip .cdot { width:8px;height:8px;border-radius:50%;background:var(--g); }
+    .chip1 { bottom:-1.2rem;left:-1.4rem;animation:floatY 3s ease-in-out infinite; }
+    .chip2 { top:-1rem;right:-1.2rem;animation:floatY 3s ease-in-out infinite 1.5s; }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+    .hero-wave { position:absolute;bottom:0;left:0;right:0;line-height:0; }
+
+    /* STRIPE */
+    .stripe { height:5px;background:repeating-linear-gradient(90deg,var(--g) 0,var(--g) 24px,var(--r) 24px,var(--r) 48px,var(--o) 48px,var(--o) 72px,var(--y) 72px,var(--y) 96px); }
+
+    /* SECTIONS */
+    section { padding:5.5rem 1.5rem; }
+    .sec-inner { max-width:1200px;margin:0 auto; }
+    .sec-label { display:inline-block;background:var(--gl);color:var(--g);font-size:.68rem;font-weight:700;padding:.3rem .9rem;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem; }
+    .sec-h2 { font-family:'Fraunces',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:900;line-height:1.15;color:var(--ink);margin-bottom:.9rem; }
+    .sec-h2 .green { color:var(--g); }
+    .sec-sub { color:var(--muted);font-size:1rem;line-height:1.65;max-width:500px; }
+    .reveal { opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease; }
+    .reveal.vis { opacity:1;transform:translateY(0); }
+
+    /* ABOUT */
+    #about { background:#fff; }
+    .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center; }
+    .about-body { color:var(--muted);font-size:.975rem;line-height:1.75;margin-bottom:.9rem; }
+    .feat-grid { display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:1.8rem; }
+    .feat-card { display:flex;align-items:flex-start;gap:.75rem;background:var(--surface);padding:1rem;border-radius:16px;border:1px solid var(--border); }
+    .feat-icon { width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+    .feat-title { font-weight:700;font-size:.84rem;color:var(--ink); }
+    .feat-sub { font-size:.72rem;color:#9ca3af;margin-top:2px; }
+    .about-visual { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+    .av-main { grid-column:1/-1;border-radius:22px;padding:2rem;background:linear-gradient(135deg,var(--gd),var(--g));color:#fff; }
+    .av-main .av-icon { font-size:2.5rem;margin-bottom:.8rem; }
+    .av-main h3 { font-family:'Fraunces',serif;font-size:1.45rem;font-weight:900;margin-bottom:.4rem; }
+    .av-main p { color:#bbf7d0;font-size:.85rem;line-height:1.6; }
+    .av-services { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem; }
+    .av-tag { font-size:.7rem;font-weight:700;background:rgba(255,255,255,.15);color:#fff;padding:.25rem .75rem;border-radius:100px; }
+    .av-sub { border-radius:22px;padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between;min-height:148px; }
+    .av-sub .av-sub-icon { font-size:2rem; }
+    .av-sub h4 { font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900; }
+    .av-sub p { font-size:.75rem;margin-top:.2rem; }
+
+    /* PRODUCTS */
+    #products { background:var(--surface); }
+    .prod-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem; }
+    .prod-card { background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--border);transition:transform .25s,box-shadow .25s; }
+    .prod-card:hover { transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.1); }
+    .prod-thumb { height:170px;display:flex;align-items:center;justify-content:center;font-size:5rem;transition:transform .4s; }
+    .prod-card:hover .prod-thumb { transform:scale(1.09); }
+    .prod-body { padding:1.4rem; }
+    .prod-tag { display:inline-block;font-size:.68rem;font-weight:700;padding:.22rem .7rem;border-radius:100px;margin-bottom:.75rem; }
+    .prod-title { font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900;margin-bottom:.45rem;color:var(--ink); }
+    .prod-desc { font-size:.815rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem; }
+    .prod-chips { display:flex;flex-wrap:wrap;gap:.35rem; }
+    .pchip { font-size:.68rem;background:#f3f4f6;color:#6b7280;padding:.2rem .6rem;border-radius:100px; }
+
+    /* DEALS */
+    #deals { background:linear-gradient(158deg,#052e16 0%,#14532d 55%,#166534 100%);position:relative;overflow:hidden; }
+    #deals::before { content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 55% at 92% 8%,rgba(234,88,12,.2) 0%,transparent 60%); }
+    #deals .sec-label { background:rgba(255,255,255,.1);color:#86efac; }
+    #deals .sec-h2 { color:#fff; }
+    #deals .sec-sub { color:#86efac; }
+    .deals-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;position:relative; }
+    .deal-card { border-radius:20px;padding:1.75rem;position:relative;overflow:hidden;color:#fff;transition:transform .25s,box-shadow .25s; }
+    .deal-card:hover { transform:translateY(-6px);box-shadow:0 24px 50px rgba(0,0,0,.32); }
+    .deal-card::after { content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07); }
+    .deal-icon { font-size:2.5rem;margin-bottom:1rem; }
+    .deal-badge { display:inline-block;font-size:.65rem;font-weight:800;padding:.25rem .8rem;border-radius:100px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.75rem; }
+    .deal-title { font-family:'Fraunces',serif;font-size:1.35rem;font-weight:900;margin-bottom:.45rem; }
+    .deal-desc { font-size:.82rem;line-height:1.6;opacity:.85;margin-bottom:1.25rem; }
+    .deal-bar-bg { background:rgba(255,255,255,.2);height:4px;border-radius:100px;overflow:hidden;margin-bottom:.4rem; }
+    .deal-bar { background:#fff;height:4px;border-radius:100px; }
+    .deal-claim { font-size:.7rem;opacity:.6; }
+    .deal-foot { font-size:.7rem;opacity:.5;margin-top:.75rem; }
+    .deals-notice { margin-top:2.5rem;text-align:center;position:relative; }
+    .deals-notice-inner { display:inline-flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#86efac;font-size:.85rem;padding:.75rem 1.5rem;border-radius:100px; }
+
+    /* CONTACT */
+    #contact { background:#fff; }
+    .contact-grid { display:grid;grid-template-columns:2fr 3fr;gap:2.5rem;align-items:stretch;margin-top:3.5rem; }
+    .info-cards { display:flex;flex-direction:column;gap:1rem; }
+    .info-card { background:var(--surface);border-radius:18px;padding:1.4rem;border:1px solid var(--border);display:flex;align-items:flex-start;gap:1rem; }
+    .info-icon { width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+    .info-label { font-weight:700;font-size:.875rem;color:var(--ink);margin-bottom:.3rem; }
+    .info-val { font-size:.85rem;color:var(--muted);line-height:1.65; }
+    .info-link { color:var(--g);font-weight:700;text-decoration:none; }
+    .info-link:hover { text-decoration:underline; }
+    .open-pill { display:inline-flex;align-items:center;gap:.4rem;background:var(--gl);color:var(--g);font-size:.68rem;font-weight:700;padding:.25rem .75rem;border-radius:100px;margin-top:.6rem; }
+    .open-ping { width:6px;height:6px;background:var(--g);border-radius:50%;animation:ping 2s infinite; }
+    @keyframes ping { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+    .rating-pill { display:inline-flex;align-items:center;gap:.4rem;background:#fefce8;color:#92400e;font-size:.72rem;font-weight:700;padding:.28rem .85rem;border-radius:100px;margin-top:.6rem; }
+    .services-row { display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem; }
+    .svc-tag { font-size:.7rem;font-weight:600;background:var(--gl);color:var(--g);padding:.22rem .7rem;border-radius:100px; }
+    .map-wrap { border-radius:20px;overflow:hidden;border:1px solid var(--border);height:100%;min-height:400px; }
+    .map-wrap iframe { width:100%;height:100%;min-height:400px;border:0;display:block; }
+
+    /* FOOTER */
+    footer { background:var(--ink);color:#9ca3af;padding:4rem 1.5rem 2rem; }
+    .foot-inner { max-width:1200px;margin:0 auto; }
+    .foot-grid { display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.07); }
+    .foot-logo-name { font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem;color:#fff; }
+    .foot-logo-name em { font-style:normal;color:var(--go); }
+    .foot-tagline { font-size:.85rem;color:#6b7280;line-height:1.65;margin:.75rem 0 1.25rem; }
+    .socials { display:flex;gap:.5rem; }
+    .soc { width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;transition:background .18s;color:#9ca3af;text-decoration:none; }
+    .soc:hover { background:var(--g);color:#fff; }
+    .foot-heading { font-size:.72rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.2rem; }
+    .foot-links { display:flex;flex-direction:column;gap:.55rem; }
+    .foot-links a { font-size:.875rem;color:#6b7280;text-decoration:none;transition:color .15s,padding-left .15s; }
+    .foot-links a:hover { color:#fff;padding-left:4px; }
+    .hours-row { display:flex;justify-content:space-between;font-size:.875rem;margin-bottom:.5rem; }
+    .hours-row span:last-child { color:#fff;font-weight:600; }
+    .foot-open { margin-top:.75rem;padding:.75rem 1rem;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.2);border-radius:12px; }
+    .foot-open-top { display:flex;align-items:center;gap:.4rem;color:var(--go);font-size:.78rem;font-weight:700;margin-bottom:.2rem; }
+    .foot-open p { color:#4b7a4b;font-size:.72rem; }
+    .foot-bottom { padding-top:2rem;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;flex-wrap:wrap;gap:1rem; }
+
+    /* RESPONSIVE */
+    @media (max-width:1024px) {
+      .hero-inner { grid-template-columns:1fr; }
+      .hero-vis { display:none; }
+      .about-grid { grid-template-columns:1fr; }
+      .about-visual { display:none; }
+      .prod-grid { grid-template-columns:1fr 1fr; }
+      .deals-grid { grid-template-columns:1fr 1fr; }
+      .contact-grid { grid-template-columns:1fr; }
+      .foot-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .ham { display:flex; }
+      .feat-grid { grid-template-columns:1fr; }
+      .prod-grid { grid-template-columns:1fr; }
+      .deals-grid { grid-template-columns:1fr; }
+      .hero-stats { gap:1.25rem; }
+    }
+    @media (max-width:480px) { .foot-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <div class="logo-badge">
+        <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">SVLN <em>Metro</em>Mart</div>
+        <div class="logo-sub">Simhachalam · Vepagunta</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#deals">Deals</a>
+      <a href="#contact" class="nav-cta">Find Us</a>
+    </div>
+    <button class="ham" id="ham" aria-label="Menu">
+      <span id="b1"></span><span id="b2"></span><span id="b3"></span>
+    </button>
+  </div>
+</nav>
+<div id="mob-nav">
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#products">Products</a>
+  <a href="#deals">Deals</a>
+  <a href="#contact" class="mob-cta">Find Us</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="dot"></span>Open Daily · 8 AM – 11 PM</div>
+      <h1 class="hero-h1">
+        Your<br>
+        <span class="grad">Neighbourhood</span><br>
+        Supermarket
+      </h1>
+      <p class="hero-p">Fresh picks, great prices, and friendly service — all under one roof in Simhachalam, Vepagunta. Rated <strong style="color:#fbbf24">4.8 ★</strong> by the community.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-white">
+          Visit Us Today
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#deals" class="btn-ghost">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg>
+          Today's Deals
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Products</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">4.8★</div><div class="stat-label">Google Rating</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">8 AM</div><div class="stat-label">Opens Daily</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Serving</div></div>
+      </div>
+    </div>
+    <div class="hero-vis">
+      <div style="position:relative;">
+        <div class="glass-card">
+          <div class="gc-icon">🏪</div>
+          <h3>SVLN Metro Mart</h3>
+          <p>16-138, Prahaladapuram, Simhachalam, Vepagunta — your supermarket for fresh groceries, snacks, beverages & daily essentials.</p>
+          <div class="gc-rating">
+            <span class="gc-stars">★★★★★</span>
+            <span class="gc-rtxt">4.8 · 80 reviews on Google</span>
+          </div>
+        </div>
+        <div class="chip chip1"><span class="cdot"></span>Open till 11 PM</div>
+        <div class="chip chip2">🚚 Delivery Available</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+      <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,10 1440,40 L1440,60 L0,60 Z" fill="#f7faf7"/>
+    </svg>
+  </div>
+</section>
+<div class="stripe"></div>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="sec-label">About Us</span>
+        <h2 class="sec-h2">More Than a Store —<br><span class="green">A Community Hub</span></h2>
+        <p class="about-body">SVLN Metro Mart has been a trusted part of the Simhachalam and Vepagunta community for over a decade. Whether it's morning essentials, a cold drink on a hot afternoon, or a quick grocery run — we've got you covered.</p>
+        <p class="about-body">We stock 500+ products from trusted brands alongside local favourites, with friendly staff and shelves that are always full — open from 8 AM to 11 PM every day.</p>
+        <div class="feat-grid">
+          <div class="feat-card">
+            <div class="feat-icon" style="background:#dcfce7;"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+            <div><div class="feat-title">Quick Service</div><div class="feat-sub">In and out in minutes</div></div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon" style="background:#ffedd5;"><svg width="18" height="18" fill="none" stroke="#ea580c" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+            <div><div class="feat-title">Wide Variety</div><div class="feat-sub">500+ products stocked</div></div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon" style="background:#fee2e2;"><svg width="18" height="18" fill="none" stroke="#dc2626" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+            <div><div class="feat-title">Community First</div><div class="feat-sub">Locally owned &amp; run</div></div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon" style="background:#fef9c3;"><svg width="18" height="18" fill="none" stroke="#d97706" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><div class="feat-title">Long Hours</div><div class="feat-sub">8 AM – 11 PM daily</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual reveal">
+        <div class="av-main">
+          <div class="av-icon">🏪</div>
+          <h3>SVLN Metro Mart</h3>
+          <p>Rated 4.8 ★ on Google Maps by 80+ happy customers. Your go-to supermarket for fresh groceries, beverages, snacks, and daily essentials in Vepagunta.</p>
+          <div class="av-services">
+            <span class="av-tag">In-store Shopping</span>
+            <span class="av-tag">Kerbside Pickup</span>
+            <span class="av-tag">Delivery</span>
+          </div>
+        </div>
+        <div class="av-sub" style="background:#fed7aa;">
+          <div class="av-sub-icon">🥤</div>
+          <div><h4 style="color:#431407;">Cold Drinks</h4><p style="color:#7c2d12;">Always chilled, always fresh</p></div>
+        </div>
+        <div class="av-sub" style="background:#fef08a;">
+          <div class="av-sub-icon">🍿</div>
+          <div><h4 style="color:#365314;">Snacks &amp; More</h4><p style="color:#713f12;">Every craving sorted</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRODUCTS ══ -->
+<section id="products">
+  <div class="sec-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="sec-label">What We Carry</span>
+      <h2 class="sec-h2" style="margin:0 auto .9rem;">Our Product <span class="green">Categories</span></h2>
+      <p class="sec-sub" style="margin:0 auto;">Everything from morning munchies to midnight essentials — all under one roof.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#fef9c3,#fde68a);">🍿</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#fef9c3;color:#92400e;">Popular</span>
+          <div class="prod-title">Snacks &amp; Munchies</div>
+          <p class="prod-desc">Chips, biscuits, popcorn, chocolates, nuts — local and national brands always in stock.</p>
+          <div class="prod-chips"><span class="pchip">Chips</span><span class="pchip">Biscuits</span><span class="pchip">Chocolates</span><span class="pchip">Nuts</span></div>
+        </div>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">🥤</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#dbeafe;color:#1e40af;">Refreshing</span>
+          <div class="prod-title">Beverages</div>
+          <p class="prod-desc">Cold drinks, juices, energy drinks, water, tea, and coffee — always chilled and ready.</p>
+          <div class="prod-chips"><span class="pchip">Cold Drinks</span><span class="pchip">Juices</span><span class="pchip">Water</span><span class="pchip">Energy</span></div>
+        </div>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">🧴</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#dcfce7;color:#166534;">Daily Use</span>
+          <div class="prod-title">Daily Essentials</div>
+          <p class="prod-desc">Soaps, shampoos, toothpaste, detergents, and household items you need every day.</p>
+          <div class="prod-chips"><span class="pchip">Personal Care</span><span class="pchip">Cleaning</span><span class="pchip">Hygiene</span></div>
+        </div>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);">🥛</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#fce7f3;color:#9d174d;">Fresh</span>
+          <div class="prod-title">Dairy &amp; Bakery</div>
+          <p class="prod-desc">Milk, curd, butter, bread, and eggs — fresh dairy and bakery items restocked daily.</p>
+          <div class="prod-chips"><span class="pchip">Milk</span><span class="pchip">Curd</span><span class="pchip">Bread</span><span class="pchip">Eggs</span></div>
+        </div>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">📚</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#ede9fe;color:#5b21b6;">School</span>
+          <div class="prod-title">Stationery</div>
+          <p class="prod-desc">Pens, notebooks, pencils, markers — all the school and office stationery you need.</p>
+          <div class="prod-chips"><span class="pchip">Pens</span><span class="pchip">Notebooks</span><span class="pchip">Art Supplies</span></div>
+        </div>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#ffedd5,#fed7aa);">🍚</div>
+        <div class="prod-body">
+          <span class="prod-tag" style="background:#ffedd5;color:#9a3412;">Staples</span>
+          <div class="prod-title">Groceries &amp; Grains</div>
+          <p class="prod-desc">Rice, dal, flour, spices, oils, and pantry staples at the best prices, always in stock.</p>
+          <div class="prod-chips"><span class="pchip">Rice</span><span class="pchip">Dal</span><span class="pchip">Spices</span><span class="pchip">Oils</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEALS ══ -->
+<section id="deals">
+  <div class="sec-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="sec-label">Hot Deals</span>
+      <h2 class="sec-h2" style="margin:0 auto .9rem;">Today's <span style="color:#4ade80;">Special Offers</span></h2>
+      <p class="sec-sub" style="margin:0 auto;">Limited-time deals refreshed daily — visit us in-store to grab yours!</p>
+    </div>
+    <div class="deals-grid">
+      <div class="deal-card reveal" style="background:linear-gradient(135deg,#16a34a,#065f46);">
+        <div class="deal-icon">🧃</div>
+        <div class="deal-badge">FLASH DEAL</div>
+        <div class="deal-title">Buy 2 Get 1 Free</div>
+        <p class="deal-desc">On all cold drinks and juices — mix and match any brands from our chilled section!</p>
+        <div class="deal-bar-bg"><div class="deal-bar" style="width:70%;"></div></div>
+        <div class="deal-claim">70% claimed</div>
+        <div class="deal-foot">*Valid today only · In-store only</div>
+      </div>
+      <div class="deal-card reveal" style="background:linear-gradient(135deg,#dc2626,#991b1b);">
+        <div class="deal-icon">🍫</div>
+        <div class="deal-badge">HOT OFFER</div>
+        <div class="deal-title">Snacks Combo ₹99</div>
+        <p class="deal-desc">Any 3 snack packs of your choice for just ₹99. Chips, biscuits, chocolates — you pick!</p>
+        <div class="deal-bar-bg"><div class="deal-bar" style="width:50%;"></div></div>
+        <div class="deal-claim">50% claimed</div>
+        <div class="deal-foot">*Valid today only · In-store only</div>
+      </div>
+      <div class="deal-card reveal" style="background:linear-gradient(135deg,#d97706,#92400e);">
+        <div class="deal-icon">🛒</div>
+        <div class="deal-badge">BUNDLE OFFER</div>
+        <div class="deal-title">Combo Save ₹50</div>
+        <p class="deal-desc">Buy any snack + beverage combo and save ₹50 instantly at checkout. No coupon needed!</p>
+        <div class="deal-bar-bg"><div class="deal-bar" style="width:30%;"></div></div>
+        <div class="deal-claim">30% claimed</div>
+        <div class="deal-foot">*Valid today only · In-store only</div>
+      </div>
+    </div>
+    <div class="deals-notice reveal">
+      <div class="deals-notice-inner">
+        <svg width="16" height="16" fill="#fbbf24" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+        Deals refresh every day — visit us daily for new offers!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="sec-label">Find Us</span>
+      <h2 class="sec-h2" style="margin:0 auto .9rem;">Location &amp; <span class="green">Contact</span></h2>
+      <p class="sec-sub" style="margin:0 auto;">We're right on Simhachalam Road, Vepagunta. Come visit or give us a call!</p>
+    </div>
+    <div class="contact-grid">
+      <div class="info-cards reveal">
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#dcfce7;">
+            <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Store Address</div>
+            <div class="info-val">16-138, Prahaladapuram,<br>Simhachalam, Vepagunta,<br>Andhra Pradesh 530027</div>
+            <a href="https://maps.app.goo.gl/yYYLUa1PFEZyu1tg9" target="_blank" rel="noopener" class="info-link" style="display:inline-flex;align-items:center;gap:.3rem;margin-top:.6rem;font-size:.8rem;">Get Directions →</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#dbeafe;">
+            <svg width="20" height="20" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Phone</div>
+            <a href="tel:+918978881488" class="info-link" style="font-size:1.05rem;">089788 81488</a>
+            <div class="info-val" style="margin-top:.3rem;">Call for bulk orders, queries or delivery</div>
+            <div class="rating-pill">★★★★★ &nbsp;4.8 · 80 Google Reviews</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#fef9c3;">
+            <svg width="20" height="20" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Store Hours</div>
+            <div class="info-val">Mon – Sat &nbsp;·&nbsp; <strong style="color:var(--ink)">8 AM – 11 PM</strong><br>Sunday &nbsp;·&nbsp; <strong style="color:var(--ink)">8 AM – 11 PM</strong></div>
+            <div class="open-pill"><span class="open-ping"></span>Open Now</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#dcfce7;">
+            <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Services Available</div>
+            <div class="services-row">
+              <span class="svc-tag">In-store Shopping</span>
+              <span class="svc-tag">Kerbside Pickup</span>
+              <span class="svc-tag">Delivery</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="map-wrap reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3799.5463767223587!2d83.2264982!3d17.7660007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3967ee31796eb1%3A0xd1781f9bfc5c8324!2sSVLN%20METRO%20MART!5e0!3m2!1sen!2sin!4v1774286559630!5m2!1sen!2sin"
+        class="w-full h-[400px] rounded-2xl shadow-lg border border-gray-200"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="SVLN Metro Mart Location">
+      </iframe>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
+          <div style="width:38px;height:38px;background:var(--g);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div class="foot-logo-name">SVLN <em>Metro</em>Mart</div>
+        </div>
+        <p class="foot-tagline">Your trusted neighbourhood supermarket in Simhachalam, Vepagunta — rated 4.8 ★ by 80+ customers. Fresh, fast, and always there for you.</p>
+        <div class="socials">
+          <a href="tel:+918978881488" class="soc" aria-label="Call us">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </a>
+          <a href="https://maps.app.goo.gl/yYYLUa1PFEZyu1tg9" target="_blank" rel="noopener" class="soc" aria-label="Google Maps">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-heading">Quick Links</div>
+        <div class="foot-links">
+          <a href="#home">Home</a>
+          <a href="#about">About Us</a>
+          <a href="#products">Products</a>
+          <a href="#deals">Today's Deals</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-heading">Categories</div>
+        <div class="foot-links">
+          <a href="#products">Snacks &amp; Munchies</a>
+          <a href="#products">Beverages</a>
+          <a href="#products">Daily Essentials</a>
+          <a href="#products">Dairy &amp; Bakery</a>
+          <a href="#products">Groceries</a>
+          <a href="#products">Stationery</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-heading">Store Hours</div>
+        <div class="hours-row"><span>Mon – Sat</span><span>8 AM – 11 PM</span></div>
+        <div class="hours-row"><span>Sunday</span><span>8 AM – 11 PM</span></div>
+        <div class="foot-open">
+          <div class="foot-open-top">
+            <span style="width:6px;height:6px;background:var(--go);border-radius:50%;display:inline-block;animation:ping 2s infinite;"></span>
+            Open Now
+          </div>
+          <p>📞 089788 81488</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2025 <strong style="color:#d1d5db;">SVLN Metro Mart</strong>. All rights reserved.</div>
+      <div style="color:#4b5563;">16-138 Prahaladapuram, Simhachalam, Vepagunta, AP 530027</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
+
+  // Mobile menu
+  const ham = document.getElementById('ham'), mobNav = document.getElementById('mob-nav');
+  const b1 = document.getElementById('b1'), b2 = document.getElementById('b2'), b3 = document.getElementById('b3');
+  let open = false;
+  ham.addEventListener('click', () => {
+    open = !open; mobNav.classList.toggle('open', open);
+    b1.style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+    b2.style.opacity   = open ? '0' : '1';
+    b3.style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+  mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    open = false; mobNav.classList.remove('open');
+    b1.style.transform = b3.style.transform = ''; b2.style.opacity = '1';
+  }));
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+  }, {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Active nav
+  const navAs = document.querySelectorAll('.nav-links a');
+  document.querySelectorAll('section[id]').forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting)
+          navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      });
+    }, {threshold:0.4}).observe(s);
+  });
+</script>
+</body>
+</html>
